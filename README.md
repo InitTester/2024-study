@@ -2,9 +2,9 @@
 Java JSP Spring 스터디!!! 🔥🔥🔥
 
 # 👨‍💻 스터디원 👩‍💻
-<img height="130" alt="image" src=""> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/565965ad-d39a-4cb8-88ac-b88d8f7c68aa"> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/600755eb-304c-4583-b403-0a1ceb089f7d"> | <img height="130" alt="image" src=""> 
-:---: | :---: | :---: | :---: | :---: |  :---: | 
-김태민([@taemin444](https://github.com/taemin444)) | 김학준([@hakie2kim](https://github.com/hakie2kim))) | 박준한([@junani0v0](https://github.com/junani0v0)) | 엄수경([@eunoia73](https://github.com/eunoia73)) | 전임경([@InitTester](https://github.com/InitTester)) | 전재승([@wjswotmd2](https://github.com/wjswotmd2))
+<img height="130" alt="image" src=""> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/565965ad-d39a-4cb8-88ac-b88d8f7c68aa"> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/600755eb-304c-4583-b403-0a1ceb089f7d"> | <img height="130" alt="image" src=""> 
+:---: | :---: | :---: | :---: | :---: |  :---: |  :---: |  
+김태민([@taemin444](https://github.com/taemin444)) | 김학준([@hakie2kim](https://github.com/hakie2kim))) | 박준한([@junani0v0](https://github.com/junani0v0)) | 성태현([@SungTaehyun](https://github.com/SungTaehyun)) | 엄수경([@eunoia73](https://github.com/eunoia73)) | 전임경([@InitTester](https://github.com/InitTester)) | 전재승([@wjswotmd2](https://github.com/wjswotmd2))
 
 ## 👏 👏 스터디 규칙 👏 👏
 > 스터디 시작 : 24.04.07 ~ <br/><br/>
