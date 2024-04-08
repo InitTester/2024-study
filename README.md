@@ -4,7 +4,7 @@ Java JSP Spring 스터디!!! 🔥🔥🔥
 # 👨‍💻 스터디원 👩‍💻
 <img height="130" alt="image" src=""> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src=""> | <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/143479869/73bf5ac2-bc59-4a92-bf6e-0fc283ce83f7"> | <img height="130" alt="image" src=""> 
 :---: | :---: | :---: | :---: | :---: |  :---: | 
-김태민<br/>(<a href="https://github.com/taemin444" target="_blank">@taemin444</a>) | 김학준<br/>(<a href="https://github.com/hakie2kim" target="_blank">@hakie2kim</a>) | 박준한<br/>(<a href="https://github.com/junani0v0" target="_blank">@junani0v0</a>) | 엄수경<br/>(<a href="https://github.com/eunoia73" target="_blank">@eunoia73</a>) | 전임경<br/>(<a href="https://github.com/InitTester" target="_blank">@InitTester</a>) | 전재승<br/>(<a href="https://github.com/wjswotmd2" target="_blank">@wjswotmd2</a>)
+김태민([@taemin444](https://github.com/taemin444)) | 김학준([@hakie2kim](https://github.com/hakie2kim))) | 박준한([@junani0v0](https://github.com/junani0v0)) | 엄수경([@eunoia73](https://github.com/eunoia73)) | 전임경([@InitTester](https://github.com/InitTester)) | 전재승([@wjswotmd2](https://github.com/wjswotmd2))
 
 ## 👏 👏 스터디 규칙 👏 👏
 > 스터디 시작 : 24.04.07 ~ <br/><br/>
