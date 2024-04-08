@@ -14,10 +14,12 @@ JVM은 나무위키 설명처럼 JAVA로 개발한 프로그램을 구동하기 
 **JVM(Java Virtual Machine)**
 > 
 개요 
+
 Java Virtual Machine(자바 가상 머신)은 Java로 개발한 프로그램을 컴파일하여 만들어지는 바이트코드를 실행시키기 위한 가상머신이다. JRE(Java Runtime Environment)에 포함되어 있으며, Java 컴파일러가 프론트엔드를 담당한다면 Java 가상 머신은 코드 최적화와 백엔드를 담당한다(웹이 아닌 컴파일러의 프론트엔드/백엔드를 말하는 것이다).
+
 구조
-![](https://velog.velcdn.com/images/initsave/post/0c074b0b-9b4e-4170-b7b6-3dab0ac8ee74/image.webp)
-https://namu.wiki/w/Java%20Virtual%20Machine
+
+![](https://velog.velcdn.com/images/initsave/post/0c074b0b-9b4e-4170-b7b6-3dab0ac8ee74/image.webp) 참조 : https://namu.wiki/w/Java%20Virtual%20Machine
 
 
 
