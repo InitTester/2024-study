@@ -33,7 +33,7 @@ public static int multiply(int a, int b) {
 
 - 메서드 이름: 메서드를 호출하는 메서드의 이름이다.
 
-- 매개 변수: 메서드 내에서만 사용할 수 있는 지역 변수이다.
+- 매개 변수: **메서드 내**에서만 사용할 수 있는 **지역 변수**이다.
 
 ## 매개 변수 (Parameter) vs. 인수(Argument)
 
@@ -84,7 +84,9 @@ public class ParamAndArg {
 ### 값에 의한 호출
 
 - **값 자체**를 복사해 인자로 전달하는 호출 방식.
+  
 - 원본 값 변경 불가.
+
 - 참조형과 관련.
 
   예) 아파트 주소에 사는 가구원 수
@@ -116,7 +118,9 @@ public class ParamAndArg {
 
 ### 스택 영역 (Stack Area)
 
-**메서드 실행**을 위한 영역이다.
+- **메서드 실행**을 위한 영역이다.
+  
+- 메서드의 **지역 변수**를 위한 공간이 생성되며 메서드 수행이 끝나면 메모리 공간을 반환한다.
 
 ### 힙 영역 (Heap Area)
 
@@ -129,18 +133,16 @@ public class ParamAndArg {
 ```java
 class 붕어빵 {
   String filling;
-  String topping;
 
   붕어빵(String filling, String topping) {
     this.filling = filling;
-    this.topping = topping;
   }
 }
 
 public class Main {
   public static void main(String[] args) {
-    붕어빵 붕어빵1 = new 붕어빵("참치", "치즈");
-    붕어빵 붕어빵2 = new 붕어빵("초콜릿", "생크림");
+    붕어빵 붕어빵1 = new 붕어빵("참치");
+    붕어빵 붕어빵2 = new 붕어빵("초콜릿");
   }
 }
 ```
@@ -153,11 +155,9 @@ public class Main {
 ### 인스턴스 (객체)
 
 - 클래스를 이용해 만든 **실제 메모리(힙 영역)에 만든 실체**
-- `붕어빵1`, `붕어빵2`가 참조하고 있는 것
+- 예) `붕어빵1`, `붕어빵2`가 참조하고 있는 것
 
 ## 객체 지향 핵심 개념
-
-### 상속 (Inheritance)
 
 ```java
 abstract class 붕어빵 {
@@ -173,16 +173,18 @@ abstract class 붕어빵 {
 
 ```java
 class 피자_붕어빵 extends 붕어빵 {
-  private filling;
+  private String filling;
 
   @Override
   void 속_채우기() {
     this.filling = "피자";
-  };
+  }
 
   void 속_채우기(boolean 재료_소진) {
-    this.filling = 재료_소진 ? "기본_재료" : "피자";
-  };
+    if (재료_소진) {
+      this.filling = "팥";
+    }
+  }
 
   void 굽기() {
     System.out.println("굽기!");
@@ -190,9 +192,14 @@ class 피자_붕어빵 extends 붕어빵 {
 }
 ```
 
-#### 재사용과 구체화
+위와 같은 예를 이용해 객체 지향 개념을 설명하겠다.
 
-- **기존 클래스**의 필드와 메서드**를 재사용**할 수 있게 한다.
+### 상속 (Inheritance)
+
+
+#### 재사용 & 확장과 구체화
+
+- **기존 클래스**의 필드와 메서드를 **재사용**하고 **확장** 가능하게 한다.
   예) `굽기()`
 
 - 추상 클래스의 구체화이다.
@@ -221,7 +228,7 @@ class 피자_붕어빵 extends 붕어빵 {
 #### 핵심 기능
 
 ```java
-public class Main {
+public class Polymorphism {
   public static void main(String[] args) {
     피자_붕어빵 피붕 = new 피자_붕어빵();
     팥_붕어빵 팥붕 = new 팥_붕어빵();
@@ -241,7 +248,7 @@ public class Main {
   예) `붕어빵[] 붕어빵들 = {피붕, 팥붕};`
 
 - 오버라이딩 우선: 자식 클래스에서 오버라이딩된 메서드가 우선 호출된다.
-  예) `붕어빵_하나.속_채우기();`: 붕어빵 타입이 `피자_붕어빵`일 떄 `붕어빵`의 `속_채우기()`가 아닌 오버라이드된 메서드가 호출된다.
+  예) `붕어빵_하나.속_채우기();`: 붕어빵 타입이 `피자_붕어빵`일 때 `붕어빵`의 `속_채우기()`가 아닌 `피자_붕어빵`의 오버라이드된 메서드가 호출된다.
 
 [참고] 두 객체가 서로 상속 관계에 있는지 확인할 때는 `instanceof`를 사용한다.
 
@@ -253,7 +260,7 @@ public class Main {
 
 - 제약: 인터페이스의 모든 메서드는 추상 메서드이기 때문에 해당 인터페이스를 구현하는 자식 클래스는 모든 기능을 구현해야만 하는 강제성을 가진다.
 
-- 다중 구현 가능: 상속과 달리 `implements`를 사용하는 인터페이스는 여러 인터페이스를 구현할 수 있다.  
+- 다중 구현 가능: 상속과 달리 `implements`를 사용하는 인터페이스는 여러 인터페이스를 구현할 수 있다.
 
 하지만 가장 중요한 다형성의 사용 이유는 바로 **역할과 구현**의 분리이다.
 
@@ -262,7 +269,6 @@ class Driver {
   private Model1 model1 = new Model1();
 
   void drive() {
-    
     model1.시동_켜기();
     model1.엑셀_밟기();
     model1.시동_끄기();
@@ -306,4 +312,4 @@ class Model1 implements Car {
 }
 ```
 
-이와 같이 어떤 `차`를 `운전`해도 `운전자`의 코드는 변하지 않는 설계를 확장에는 열려있고 수정에는 닫혀 있는 OCP (Open-Closed Principle) 원칙이라고 한다.  
+이와 같이 어떤 `차`를 `운전`해도 `운전자`의 코드는 변하지 않는 설계를 확장에는 열려있고 수정에는 닫혀 있는 OCP (Open-Closed Principle) 원칙이라고 한다.
