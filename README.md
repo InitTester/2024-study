@@ -8,7 +8,7 @@ Java JSP Spring 스터디!!! 🔥🔥🔥
 
 <img height="130" alt="image" src=""> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/600755eb-304c-4583-b403-0a1ceb089f7d"> | <img height="130" alt="image" src="">  | <img height="130" alt="image" src=""> |
 :---: | :---: | :---: | :---: | 
-엄수경([@eunoia73](https://github.com/eunoia73)) | 전임경([@InitTester](https://github.com/InitTester)) | 전재승([@wjswotmd2](https://github.com/wjswotmd2)) | 000([@000]())
+엄수경([@eunoia73](https://github.com/eunoia73)) | 전임경([@InitTester](https://github.com/InitTester)) | 전재승([@wjswotmd2](https://github.com/wjswotmd2)) | 강성준([@]())
 
 
 ## 👏 👏 스터디 규칙 👏 👏
