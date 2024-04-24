@@ -1,0 +1,439 @@
+# 회원가입 시 인증 메일 보내기 설정
+java에서 메일을 발송 하려면 라이브러리가 2개 필요합니다
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context-support</artifactId>
+    <version>5.3.34</version>
+</dependency>
+
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.6.2</version>
+</dependency>
+```
+[MVN repository](http://mvnrepository.com "mvnrepository")에 가서 아래 3가지를 pom.xml에 추가해줍니다
+- spring-context 5.3.34 (spring-context는 이미 전에 추가)
+- javax.mail 1.6.2
+- spring-context-support 5.3.34
+
+## pom.xml
+```xml
+<properties>
+    <spring.version>5.3.34</spring.version>
+</properties>
+
+<dependencies>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.3.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.5.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>1.5.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.13</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/at.favre.lib/bcrypt -->
+    <dependency>
+        <groupId>at.favre.lib</groupId>
+        <artifactId>bcrypt</artifactId>
+        <version>0.10.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+    <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>javax.mail</artifactId>
+        <version>1.6.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+</dependencies>
+```
+spring 버전은 다 맞춰야하기에 pom.xml에서 버전을 선언   
+변수로 만든 ${spring.version}을 넣어 개별관리를 하나로 바꿔줍니다   
+그러고 maven update해주세요
+
+## context-root.xml
+```xml
+  <!-- 이메일 전송하기 위한 bean설정 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" />
+		<property name="port" value="587" />
+		<property name="username" value="yourmail" />
+		<property name="password" value="yourpassword" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+```
+context-root.xml에 이메일 전송을 위한 빈을 설정해줍니다   
+위 코드에서 username과 password 값을 사용하는 메일로 변경해줍니다   
+그러면 spring에거 구현한 JavaMailSender 구현체를 사용할 수 있습니다 빈 아이디 mailSender를 찾아 사용   
+mailSender를 사용하기 위해서는 별도의 클래스를 만들어주는게 좋습니다
+
+## EmailDto.java 생성
+dto패키지에 EmailDto.java를 생성해줍니다
+```java
+public class EmailDto {
+  private String from;
+  private String receiver;
+  private String text;
+  private String subject;
+}
+```
+## EmailUtil.java 생성
+```java
+// com.xxxx.xxxx.util
+// 수동 빈 설정
+public class EmailUtil {
+	  // property 설정으로 받아보기
+    private JavaMailSender mailSender;
+
+    public String sendMail(EmailDto email) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            messageHelper.setTo(email.getReceiver());
+            messageHelper.setText(email.getText());
+            messageHelper.setFrom(email.getFrom());
+            messageHelper.setSubject(email.getSubject());	// 메일제목은 생략이 가능하다
+
+            mailSender.send(message);
+
+        } catch(Exception e){
+            System.out.println(e);
+            return "Error";
+        }
+        return "Sucess";
+    }
+}
+```
+EmailUtil을 생성 후 수동 bean도 설정해 줍니다
+## context-root
+```xml
+<bean id="joinService" class="com.portfolio.www.service.JoinService">
+    <property name="memberDao" ref="memberDao" />
+    <property name="memberAuthDao" ref="memberAuthDao" />
+    <property name="emailUtil" ref="emailUtil" />
+</bean>
+
+<bean id="emailUtil" class="com.portfolio.www.util.EmailUtil">
+    <property name="mailSender" ref="mailSender"/>
+</bean>
+```
+- emailUtil을 bean설정하고 mailSender를 주입   
+- joinService에 emailUtil을 주입
+
+## EmilDto Getter & Setter 등록 
+EmilDto에서 우클릭 -> Source -> Generate Getters & Setters... 클릭 -> 우측 Select All 클릭 -> Generate 클릭
+
+## EmailUtil - MailSender의 setter 만들기
+```java
+private JavaMailSender mailSender;
+
+//property는 set으로 받는다*****
+public void setMailSender(JavaMailSender mailSender) {
+    this.mailSender = mailSender;
+}
+```
+이제 서버를 돌린뒤 mailSender 와 emailUtil이 빈으로 등록되었는지 확인
+
+### 정리
+이메일 보내기 설정 완료   
+메일은 mailSender가 보낼꺼고 mailSender를 사용하기위해 EmailUtil을 만듦
+
+
+## JoinService
+```java
+private EmailUtil emailUtil;
+public void setEmailUtil(EmailUtil emailUtil) {
+		System.out.println("------------ " + emailUtil + " in joinService");
+		this.emailUtil = emailUtil;
+	}
+```
+EmailUtil의 setter 생성
+
+```java
+int cnt = memberDao.join(params);
+int memberSeq = memberDao.getMemberSeq(params.get("memberId"));
+    if (cnt == 1) {
+        // 인증 메일 구조 만들기
+        MemberAuthDto authDto = new MemberAuthDto();
+        authDto.setMemberSeq(memberSeq);
+        authDto.setAuthUri(UUID.randomUUID().toString().replaceAll("-", ""));
+        
+        memberAuthDao.addAuthInfo(authDto);
+        
+        // 인증 메일 발송
+        EmailDto email = new EmailDto();
+        email.setFrom("junani0v0@naver.com"); //보내는 이메일
+        email.setReceiver(params.get("email"));
+        email.setSubject("인증하세요"); 
+        // host + contextRoot + URI
+        email.setText("http://localhost:8080/04"+ authDto.getAuthUri());
+        
+        emailUtil.sendMail(email);
+    }
+```
+dto 만들고 EmailUtil로 호출
+
+## 네이버 메일 설정
+이제 서버를 실행하고 회원가입을 해보면   
+console창에 에러가 발생했을껍니다
+![image-15](https://github.com/InitTester/2024-study/assets/148026641/95acd274-7754-4750-9a3a-13764d1fa304)
+이 에러는 2차 인증과 SMTP설정으로 인해 발생합니다    
+개인메일은 2차 인증을 풀면 보안에 위험이 있으니 
+개인메일이기에 테스트용 네이버 메일을 하나 만들었습니다
+![image-16](https://github.com/InitTester/2024-study/assets/148026641/2eaeef42-a081-4d9e-b2f4-e8b7e35990ad)
+네이버 메일 -> 환경설정 -> IMAP/SMTP설정   
+IMAP/SMTP 사용으로 변경 -> 저장
+
+이제 설정완료후 다시 서버를 재시작하고 회원가입을 해봅니다
+![image-17](https://github.com/InitTester/2024-study/assets/148026641/cd841264-1bfd-4f41-a983-289d87c4e845)
+![image-18](https://github.com/InitTester/2024-study/assets/148026641/57d77029-ad08-46b0-b600-2b4f13e31c98)<br>
+이제 메일이 오고 링크가 오지만 링크가 클릭이 되지 않습니다
+우리가 보낸건 text이기에 링크가 생성되지 않아 코드를 변경해줍니다
+
+## JoinService
+```java
+// 인증 메일 발송
+EmailDto email = new EmailDto();
+email.setFrom("junani0v0@naver.com"); //보내는 이메일
+email.setReceiver(params.get("email"));
+email.setSubject("인증하세요"); 
+// host + contextRoot + URI
+String html = "<a href='http://localhost:8080/04/emailAuth.do?uri="+ authDto.getAuthUri() +"'>인증하기</>";
+email.setText(html);
+
+emailUtil.sendMail(email);
+```
+JoinService에서 링크를 a태그에 넣어 html변수에 담습니다 
+
+![image-19](https://github.com/InitTester/2024-study/assets/148026641/e7f5d23d-de21-41ba-86d6-a92caea3b0e3)
+하지만 이렇게해도 이메일에는 누를 수 없는 text만 발송됩니다
+
+## EmailUtil
+```java
+public String sendMail(EmailDto email) {
+     try {
+         MimeMessage message = mailSender.createMimeMessage();
+         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+         messageHelper.setTo(email.getReceiver());
+         messageHelper.setFrom(email.getFrom());
+         messageHelper.setSubject(email.getSubject());	// 메일제목은 생략이 가능하다
+         messageHelper.setText(email.getText(), true);	//뒤에 ture문 html, 아닐경우 text	
+
+         mailSender.send(message);
+```
+```java
+messageHelper.setText(email.getText());
+```
+아무것도 없을 경우 text로 보내고
+```java
+messageHelper.setText(email.getText(), true);
+```
+true일때는 html로 보내게됩니다   
+이거를 어떻게 구분할 것인가??
+
+setText에 가보면 힌트가 있습니다
+```java
+public String sendMail(EmailDto email) {
+    return sendMail(email,false);
+}
+public String sendMail(EmailDto email, boolean isHtml) {
+     try {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+        messageHelper.setTo(email.getReceiver());
+        messageHelper.setFrom(email.getFrom());
+        messageHelper.setSubject(email.getSubject());	// 메일제목은 생략이 가능하다         
+        messageHelper.setText(email.getText(), isHtml);//뒤에 ture문 html, 아닐경우 text
+        mailSender.send(message);
+
+    } catch(Exception e){
+        System.out.println(e);
+        return "Error";
+     }
+    return "Sucess";
+ }
+```
+이렇게 true, false일 경우 boolean값이 없을경우는 false가 되게하고   
+boolean이 있을 경우 isHtml 값이 들어가게 오버로딩 코드를 작성해줍니다??
+
+![image-20](https://github.com/InitTester/2024-study/assets/148026641/23122952-c29b-4530-a830-e15c2306cd4d)
+![image-21](https://github.com/InitTester/2024-study/assets/148026641/442aa04a-74cf-45e1-bb67-cc9f6a3a2cea)
+하지만 인증하기를 눌러도 에러가 발생
+
+## LoginController
+emailAuth.do가 없기에 만들어줍니다
+```java
+@RequestMapping("/emailAuth.do")
+public ModelAndView emailAuth(@RequestParam("uri") String uri) {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("login");
+
+    return mv;
+		
+```
+## MemberAuthDao
+```java
+public MemberAuthDto getMemberAuthDto(String uri) {
+    String sql ="SELECT auth_seq, member_seq, auth_num, auth_uri, reg_dtm, expire_dtm, auth_yn "
+            + "FROM forum.member_auth "
+            + "WHERE auth_uri ='"+uri+"' AND auth_yn='N'";
+    return queryForObject(sql, MemberAuthDto.class);
+}
+```
+MemberAuthDto에서 값을 가져와서 auth_uri가 uri가 같고 auth_yn가 N인것 확인
+
+전에 하나 가져올때 queryForObject 사용하였으니 이번에도 사용해 보겠습니다(에러는 안나네요)
+
+## JoinService
+```java
+	public boolean emailAuth(String uri) {
+		MemberAuthDto dto = memberAuthDao.getMemberAuthDto(uri);
+
+		return false;
+	}
+```
+이제 MemberAuthDto를 JoinService에서 호출해봅시다
+
+## LoginController
+```java
+@RequestMapping("/emailAuth.do")
+public ModelAndView emailAuth(@RequestParam("uri") String uri) {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("login");
+    joinService.emailAuth(uri);
+
+    return mv;
+}
+```
+Controller에 joinService 맵핑 추가
+
+이제 서버를 시작해보겠습니다
+![image-22](https://github.com/InitTester/2024-study/assets/148026641/e176bfab-bb9d-4a8a-9eb3-3d50960740a1)
+![image-23](https://github.com/InitTester/2024-study/assets/148026641/6e5bdaed-a1df-4667-be9f-f0c7b3b28ae4)
+이메일 링크를 클릭하면 위처럼 에러가 발생합니다   
+이유는 예상한건 1개인데 7개의 쿼리가 발견되어서 그렇습니다
+문제인 MemberAuthDao로 가보겠습니다
+
+## MemberAuthDao
+```java
+public MemberAuthDto getMemberAuthDto(String uri) {
+    String sql ="SELECT auth_seq, member_seq, auth_num, auth_uri, reg_dtm, expire_dtm, auth_yn "
+            + "FROM forum.member_auth "
+            + "WHERE auth_uri ='"+uri+"' AND auth_yn='N'";
+    return queryForObject(sql, MemberAuthDto.class);
+}
+```
+queryForObject의 설명을 봐보면 기본형의 싱글컬럼이라고 나옵니다   
+MemberAuthDto에서 나오는 컬럼이 1개인건 맞지만 위에 컬럼 7개 중 어느 컬림인지 몰라서 에러가 발생한 것입니다.
+
+이제 어느 컬림인지 알려주기위해 Mapper를 만들어 줘야합니다
+
+## MemberAuthRowMapper 생성
+dto패키지에 MemberAuthRowMapper.java 파일을 생성해줍니다
+```java
+public class MemberAuthRowMapper implements ResultSetExtractor<MemberAuthDto>{
+
+	@Override
+	public MemberAuthDto extractData(ResultSet rs) throws SQLException {
+        //MemberAuthDto dto = new MemberAuthDto(); 
+        //null이 아님
+		MemberAuthDto dto = null; 
+        //실행하지 않으면 주소값이 없는 상태 
+        //선언만하면 객체인지 주소가 없는건지 모른다
+        //그렇기에 확실하게 객체를 생성하던지
+        //아니면 주소값이 없다고 null값을 넣어준다
+
+		while(rs.next()) { //다음 로우가 있을때 까지
+			dto = new MemberAuthDto();
+			dto.setAuthSeq(rs.getInt("auth_seq"));
+			dto.setMemberSeq(rs.getInt("member_seq"));
+			dto.setAuthNum(rs.getString("auth_num"));
+			dto.setAuthUri(rs.getString("auth_uri"));
+			dto.setRegDtm(rs.getString("reg_dtm"));
+			dto.setExpireDtm(rs.getLong("expire_dtm"));
+			dto.setAuthYn(rs.getString("auth_yn"));
+		}
+		return dto;
+		//만약 이 코드에서 select된게 하나도 없으면 사용자는 null을 받는데
+		//이코드는 null을 돌려주지 않는다
+	}
+}
+```
+ResultSetExtractor를 implements하고 <T>는 MemberAuthDto로 하기로 했으니 MemberAuthDto로 바꿔줍니다   
+그리고 extract를 입력 후 엔터를 누르면 오버라이딩 하라고 나옵니다   
+이제 컬럼들을 연결시켜줍니다
+
+## MemberAuthDao
+```java
+public MemberAuthDto getMemberAuthDto(String uri) {
+    String sql ="SELECT auth_seq, member_seq, auth_num, auth_uri, reg_dtm, expire_dtm, auth_yn "
+            + "FROM forum.member_auth "
+            + "WHERE auth_uri ='"+uri+"'";
+    return query(sql, new MemberAuthRowMapper());
+}
+```
+## JoinService
+```java
+	public boolean emailAuth(String uri) {
+		MemberAuthDto dto = memberAuthDao.getMemberAuthDto(uri);
+    System.out.println("-----------------" + dto.getAuthYn());
+    System.out.println(dto.getRegDtm());
+    System.out.println(dto.getExpireDtm());
+    return false;
+	}
+```
+이제 dto값들이 잘나오는지 찍어봅니다
