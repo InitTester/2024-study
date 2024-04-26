@@ -4,7 +4,7 @@ Java JSP Spring 스터디!!! 🔥🔥🔥
 # 👨‍💻 스터디원 👩‍💻
 <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/148026641/bdfe8684-7c41-4a62-b1de-18c9801db9d7"> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/565965ad-d39a-4cb8-88ac-b88d8f7c68aa"> | <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/143479869/6f0589e8-e425-43c8-b93f-30a562fb2ea9"> | <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/148026641/bdfe8684-7c41-4a62-b1de-18c9801db9d7"> | 
 :---: | :---: | :---: | :---: | 
-김태민([@taemin444](https://github.com/taemin444)) | 김학준([@hakie2kim](https://github.com/hakie2kim))) | 박준한([@junani0v0](https://github.com/junani0v0)) | 박문주([@pickylemon](https://github.com/pickylemon) | 
+김태민([@taemin444](https://github.com/taemin444)) | 김학준([@hakie2kim](https://github.com/hakie2kim))) | 박준한([@junani0v0](https://github.com/junani0v0)) | 박문주([@pickylemon](https://github.com/pickylemon)) | 
 
 <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/148026641/bdfe8684-7c41-4a62-b1de-18c9801db9d7"> | <img height="130" alt="image" src="https://github.com/InitTester/codingTest/assets/143479869/600755eb-304c-4583-b403-0a1ceb089f7d"> | <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/148026641/bdfe8684-7c41-4a62-b1de-18c9801db9d7">  | <img height="130" alt="image" src="https://github.com/InitTester/2024-study/assets/148026641/bdfe8684-7c41-4a62-b1de-18c9801db9d7"> |
 :---: | :---: | :---: | :---: | 
