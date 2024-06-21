@@ -1,57 +1,3 @@
-
-
-## nginx 설정
-> ### nginx 찾기
-```
-yum search nginx
-```
-> ### nginx 설치
-```
-sudo yum install nginx
-```
-설치 하고 `y`로 설치 동의
-nginx는 서비스로 등록됨
-
-> ### 업그레이드
-```
-sudo dnf upgrade --releasever=2023.4.20240528
-```
-설치 후 업그레이드 하라고 `dnf...`나오면 `sudo`를 붙여 실행 그다음 `y`로 동의
-
-> ### 실행
-```
-sudo service nginx
-```
-하면 `start, stop, restart, status`등의 commend supports가 나옴
-```
-sudo service nginx status
-```
-`status`로 상태 확인   
-`Active: inactive(dead)`라고 나오면 죽어있기에 스타트 필요
-```
-sudo service nginx start
-```
-스타트하고 다시 `status`하면 `Active: active(running)`이라고 나옴
-
-> ### 포트가 열려 있는지 확인
-```
-netstat
-```
-열려있는 포트 확인
-```
-netstat -tnl | grep 80 
-```
-`netstat`만 사용할경우 너무 많은게 나오기에 조건을 걸어 찾아줍니다   
-- `netstat -tnl` : TCP프로토콜을 사용하여 주소를 숫자 형태로 표시하고, 대기 중인 연결만 보여주는 명령  
-- ` |(파이프)` : 한 명령어의 출력을 다음 명령어의 입력으로 전달
-- `grep` : Unix 및 Unix기반 시스템에 사용되는 텍스트 검색 도구(주어진 텍스트에서 해당 패턴을 찾아 출력하거나 필터링에 사용)
-
-EC2 > 보안 그룹 > `8080 -> 80`으로 변경
-이제  public DNS를 주소창에 입력하면 
-![스크린샷 2024-06-08 212405](https://github.com/InitTester/2024-study/assets/148026641/64b42c76-a736-4985-b3de-a8ff4a94e910)     
-이러한 페이지가 나오면 됨
-
-
 > ## EC2 삭제
 ![스크린샷 2024-06-08 213420](https://github.com/InitTester/2024-study/assets/148026641/6ae6644b-276a-4e5a-af27-939da48fdcaa)
    
@@ -62,8 +8,7 @@ EC2 > 보안 그룹 > `8080 -> 80`으로 변경
 
 > ## EC2 생성
 ![스크린샷 2024-06-05 211334](https://github.com/junani0v0/pf_jun01/assets/148026641/9061ae42-4ef0-4d8d-9443-02c275abcd74)   
-이름을 원하시는 걸로 입력하시고 `Amazon Linux`의 `Amazon Linux 2023 AMI`를 선택합니다.    
-이때 `프리 티어 사용 가능`이 무료임으로 잘 확인하세요 
+이름을 원하시는 걸로 입력하시고 `Amazon Linux`의 `Amazon Linux 2023 AMI`를 선택합니다. 이때 `프리 티어 사용 가능`이 무료임으로 잘 확인하세요 
 ![스크린샷 2024-06-05 211731](https://github.com/junani0v0/pf_jun01/assets/148026641/5428192a-8eed-4dd8-9e48-35be4e52a0c8)   
 아키텍처에 자신에가 맞는 비트를 선택시면 되며   
 인스턴스 유형에 `t2.micro`를 선택합니다 이것도 `프리 티어 사용 가능`을 확인하세요
@@ -88,7 +33,7 @@ IOPS는 입출력을 최대한 사용할 수 있게 하며 파일의 입출력�
 
 > ## MobaXterm 재설정
 ![스크린샷 2024-06-08 214617](https://github.com/InitTester/2024-study/assets/148026641/71b7138f-5203-4921-8818-cbae6010c801)   
-Session > SSH > Remote host : [프라이빗 IPv4 주소] > Specify username : [EC2 이름] > Use private key : [본인 SSH Key] > OK > Accept
+Session > SSH > Remote host : [퍼블릭 IPv4 주소] > Specify username : [EC2 이름] > Use private key : [본인 SSH Key] > OK > Accept
 
 > ## Java 설치
 MobaXterm에서
@@ -174,6 +119,14 @@ JAVA_HOME=/usr/lib/jvm/java-11-amazon-corretto.x86_64
 
 export path=$PATH:$JAVA_HOME/bin
 ```
+### Jasypt추가
+```
+JAVA_HOME=/usr/lib/jvm/java-11-amazon-corretto.x86_64
+export APP_ENCRYPTION_PASSWORD=jun
+export path=$PATH:$JAVA_HOME/bin
+```
+![스크린샷 2024-06-19 132603](https://github.com/junani0v0/pf_jun01/assets/148026641/ada43709-9c9c-4cdd-a32f-70c2210c67f0)
+
 `fi`아래 최종경로 추가해서 추가
 (띄어쓰기도 인식하니 조심)
 ```
@@ -254,6 +207,17 @@ alias tomcat="~/tools/apache-tomcat-9.0.89/bin/catalina.sh"
 source ~/.bashrc
 ```
 변경사항 적용
+> ## Jasypt 톰캣 환경변수 설정 - catalina.sh 파일을 수정
+![스크린샷 2024-06-19 133258](https://github.com/junani0v0/pf_jun01/assets/148026641/c0c1142d-e994-48c3-81b1-83d3942ce972)   
+
+`cd tools/apache-tomcat-9.0.89/bin` > `vi catalina.sh`   
+
+![스크린샷 2024-06-19 133211](https://github.com/junani0v0/pf_jun01/assets/148026641/e0824eac-0c8e-4154-834f-90b842511357)
+
+
+`/키워드`+Enter : 원하는 키워드 검색, n을 누르면 다음 키워드 검색   
+`/JAVA_OPTS` > security위치에 `JAVA_OPTS="$JAVA_OPTS -Djasypt.encryptor.password=복구화키값"` > esc > :wq
+
 ```
 tomcat start
 ```
@@ -587,8 +551,6 @@ Sign up Free > Free > 구글 로그인 > remind me later > Create new > Link
 긴주소 넣으면 이력서등에서 짤릴 확률이 높기에 짧은 주소 사용   
 제목에 날짜를 넣는 이유는 ip주소가 바뀌기 때문에 관리용으로 날짜를 넣음
 
-
---------------------------------
 > ## tip.  
 service나 설정을 바꿀 경우 무조건 `sudo`사용
 - `sudo` : 일반 사용자가 슈퍼 유저 또는 다른 사용자의 권한으로 명령을 실행하게 해줌
@@ -627,3 +589,4 @@ service나 설정을 바꿀 경우 무조건 `sudo`사용
 - `:q!` : 강제 나가기
 - `#` : 주석
 - `dd` : 한줄 삭제
+
