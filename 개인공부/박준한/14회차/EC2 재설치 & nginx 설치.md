@@ -1,3 +1,5 @@
+![스터디](https://github.com/InitTester/2024-study/assets/148026641/e66af90e-2c3e-4048-a2f6-3a568a427240)
+
 > ## EC2 삭제
 ![스크린샷 2024-06-08 213420](https://github.com/InitTester/2024-study/assets/148026641/6ae6644b-276a-4e5a-af27-939da48fdcaa)
    
@@ -105,6 +107,7 @@ vi ~/.bash_profile
 - `vi` : 텍스트 편집기
 - `~/` : 홈 디렉토리 경로
 - `.bash_profile` : 사용자 로그인 시 실행되는 스크립트 파일, 사용자의 환경 설정 및 사용자 정의 명령어등을 포함
+
 ```
 i
 ```
@@ -144,27 +147,36 @@ source ~/.bash_profile
 > ## tomcat 설치
 https://tomcat.apache.org/download-90.cgi   
 
-![alt text](<스크린샷 2024-06-08 224849.png>)
+![스크린샷 2024-06-08 224849](https://github.com/InitTester/2024-study/assets/148026641/cc8c1015-91a8-4021-bc5f-62ab4f76228f)
+
 ```
 cd
 ```
-![alt text](image-34.png)   
+![스크린샷 2024-06-08 225314](https://github.com/InitTester/2024-study/assets/148026641/03ca6de8-9864-4378-a408-4b231c5eb5fb)   
+
 홈 디렉토리(~)로 이동
 ```
 cd tools
 ```
-![alt text](image-33.png)   
+![스크린샷 2024-06-08 225045](https://github.com/InitTester/2024-study/assets/148026641/f3667400-04a9-484d-a29a-cc01aa01841a)   
+
 이렇게 없을 경우(홈 디렉토리에서 해야됨-사진 수정예정)
+
 ```
 mkdir ~/tools
 ```
+
 tools 디렉토리 생성
+
 ```
 cd tools
 ```
+
 tools로 이동
+
 ```
-wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz   
+
 ```
 wget [복사한 톰캣 url] 로 톰캣 다운로드
 - `wget` `url` : 인터넷 상에서 파일 다운로드 명령 
@@ -207,6 +219,7 @@ alias tomcat="~/tools/apache-tomcat-9.0.89/bin/catalina.sh"
 source ~/.bashrc
 ```
 변경사항 적용
+
 > ## Jasypt 톰캣 환경변수 설정 - catalina.sh 파일을 수정
 ![스크린샷 2024-06-19 133258](https://github.com/junani0v0/pf_jun01/assets/148026641/c0c1142d-e994-48c3-81b1-83d3942ce972)   
 
@@ -221,13 +234,17 @@ source ~/.bashrc
 ```
 tomcat start
 ```
+
 톰캣 실행
+
 ```
 netstat -tnl | grep 80
 ```
+
 톰캣 포트 열려있는지 확인
 
 > ## 8080 접속을 위한 EC2 보안 그룹 설정
+
 EC2 > 보안 그룹 > 인바운드 규칙 편집   
 ![스크린샷 2024-06-08 111302](https://github.com/InitTester/2024-study/assets/148026641/19b69206-f291-4554-8b64-674ba9ec62bb)
 
@@ -550,6 +567,8 @@ Sign up Free > Free > 구글 로그인 > remind me later > Create new > Link
 
 긴주소 넣으면 이력서등에서 짤릴 확률이 높기에 짧은 주소 사용   
 제목에 날짜를 넣는 이유는 ip주소가 바뀌기 때문에 관리용으로 날짜를 넣음
+
+
 
 > ## tip.  
 service나 설정을 바꿀 경우 무조건 `sudo`사용
