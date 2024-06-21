@@ -1,4 +1,4 @@
-[##_Image|kage@bqECJf/btsH9J8yAap/9YoYphn5dvm0mKzqNuTpD0/img.jpg|CDM|1.3|{"originWidth":1024,"originHeight":1024,"style":"alignCenter"}_##]
+![스터디](https://github.com/InitTester/2024-study/assets/148026641/e66af90e-2c3e-4048-a2f6-3a568a427240)
 
 > # 원격 톰캣의 Jasypt 환경변수 설정
 
